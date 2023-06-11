@@ -1,19 +1,13 @@
 <script lang="ts">
     import Answer from '../components/Answer.svelte'
+    import Question from '../components/Question.svelte'
     import type { PageData } from './$types'
 
     export let data: PageData
 
-    let question = ''
     let answer: Promise<string> | null = null
 
-    function onKeydown(event: KeyboardEvent) {
-        if (event.key === 'Enter') {
-            fetchResponse()
-        }
-    }
-
-    async function fetchResponse() {
+    async function fetchResponse(question: string) {
         if (!question) return
 
         answer = fetch('/api/answers', {
@@ -30,16 +24,7 @@
 
 <div class="flex w-full justify-center items-center h-screen">
     <div class="flex flex-col gap-10">
-        <div class="flex gap-5">
-            <h2>I want to</h2>
-            <input
-                class="outline-none"
-                bind:value={question}
-                placeholder="Buy a unicorn on Amazon"
-                on:keydown={onKeydown}
-            />
-            <button on:click={fetchResponse}>help</button>
-        </div>
+        <Question on:help={e => fetchResponse(e.detail)} />
         <Answer {answer} />
     </div>
 </div>
