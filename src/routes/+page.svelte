@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Answer from '../components/Answer.svelte'
     import type { PageData } from './$types'
 
     export let data: PageData
@@ -39,15 +40,6 @@
             />
             <button on:click={fetchResponse}>help</button>
         </div>
-        {#if answer}
-            <div class="flex flex-col gap-2 max-w-md">
-                <h2>Answer</h2>
-                {#await answer}
-                    <p>Thinking...</p>
-                {:then value}
-                    <p>{value}</p>
-                {/await}
-            </div>
-        {/if}
+        <Answer {answer} />
     </div>
 </div>
