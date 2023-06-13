@@ -13,19 +13,19 @@
     }
 </script>
 
-<div class="flex gap-2 w-full">
-    <div class="relative flex min-w-max items-center">
+<div class="flex w-full">
+    <div class="relative flex min-w-max items-center pr-2">
         <h2>I want to:</h2>
         <Blob2 className="absolute -top-1/2 -left-5 -z-10" />
     </div>
     <input
-        class="outline-none border-b border-black w-full h-min m-auto"
+        class="outline-none border-b border-black bg-transparent w-full h-min m-auto text-primary placeholder:text-primary placeholder:opacity-50"
         bind:value={question}
         placeholder="Buy a unicorn on Amazon"
         on:keydown={onKeydown}
     />
     <button
-        class="border bg-[#4876FF] border-black rounded-3xl px-8 py-1.5 text-white m"
+        class="border bg-primary border-black rounded-3xl px-8 py-1.5 text-white ml-4"
         on:click={() => dispatch('help', question)}
     >
         Help
