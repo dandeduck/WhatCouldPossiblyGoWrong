@@ -2,9 +2,12 @@
     import { createEventDispatcher } from 'svelte'
     import Blob2 from '../../icons/Blob2.svelte'
 
-    let question = ''
+    export let helpDisabled = false
+    export let helpText = 'Help'
 
     const dispatch = createEventDispatcher<{ help: string }>()
+
+    let question = ''
 
     function onKeydown(event: KeyboardEvent) {
         if (event.key === 'Enter') {
@@ -25,9 +28,10 @@
         on:keydown={onKeydown}
     />
     <button
-        class="border bg-primary border-black rounded-3xl px-8 py-1.5 text-white ml-4"
+        class="border bg-primary border-black rounded-3xl px-8 py-1.5 text-white ml-4 disabled:opacity-50"
+        disabled={helpDisabled}
         on:click={() => dispatch('help', question)}
     >
-        Help
+        {helpText}
     </button>
 </div>

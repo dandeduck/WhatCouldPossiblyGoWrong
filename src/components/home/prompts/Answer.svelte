@@ -3,12 +3,11 @@
 </script>
 
 {#if answer}
-    <div class="flex flex-col gap-2">
-        <h2>Answer</h2>
+    <div class="w-full px-5 py-1.5 border-2 border-secondary rounded-2xl bg-white">
         {#await answer}
-            <p class="w-full">Thinking...</p>
+            Thinking...
         {:then value}
-            <p class="w-full">{value}</p>
+            {value}
         {/await}
     </div>
 {/if}
