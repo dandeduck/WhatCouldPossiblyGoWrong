@@ -16,19 +16,21 @@
     }
 </script>
 
-<div class="flex w-full">
-    <div class="relative flex min-w-max items-center pr-2">
-        <h2>I want to:</h2>
-        <Blob2 className="absolute -top-1/2 -left-5 -z-10" />
+<div class="flex flex-col gap-4 md:flex-row w-full">
+    <div class="flex gap-2 w-full">
+        <div class="relative flex min-w-max items-center">
+            <h2>I want to:</h2>
+            <Blob2 className="absolute -left-5 -z-10" />
+        </div>
+        <input
+            class="outline-none border-b border-black bg-transparent w-full h-min m-auto text-primary placeholder:text-primary placeholder:opacity-50"
+            bind:value={question}
+            placeholder="Buy a unicorn on Amazon"
+            on:keydown={onKeydown}
+        />
     </div>
-    <input
-        class="outline-none border-b border-black bg-transparent w-full h-min m-auto text-primary placeholder:text-primary placeholder:opacity-50"
-        bind:value={question}
-        placeholder="Buy a unicorn on Amazon"
-        on:keydown={onKeydown}
-    />
     <button
-        class="border bg-primary border-black rounded-3xl px-8 py-1.5 text-white ml-4 disabled:opacity-50"
+        class="border bg-primary border-black rounded-3xl px-8 py-1.5 text-white disabled:opacity-50"
         disabled={helpDisabled}
         on:click={() => dispatch('help', question)}
     >

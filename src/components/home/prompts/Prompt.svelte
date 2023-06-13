@@ -19,7 +19,7 @@
     const dispatch = createEventDispatcher<{ question: string }>()
 </script>
 
-<div class="flex flex-col gap-2.5 w-full text-lg">
+<div class="flex flex-col gap-5 w-full text-lg">
     <Question on:help={e => dispatch('question', e.detail)} {helpDisabled} {helpText} />
     <Answer {answer} />
 </div>
