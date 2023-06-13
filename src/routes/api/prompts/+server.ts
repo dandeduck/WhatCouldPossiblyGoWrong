@@ -1,6 +1,7 @@
 import { error, json } from '@sveltejs/kit'
 import { Configuration, OpenAIApi } from 'openai'
 import { config } from 'dotenv'
+import { sql } from '@vercel/postgres'
 
 const PROMPT_TEMPLATE = `
 Come up with a funny and weird unrealistic situtation that might result from the following question:
@@ -28,9 +29,11 @@ export async function POST({ request }) {
             max_tokens: 200
         })
 
-        return json({
-            answer: response.data.choices[0].text
-        })
+        const answer = response.data.choices[0].text
+
+        savePrompt(question, answer)
+
+        return json({ answer })
     } catch (err) {
         if (err instanceof Error) {
             console.error(err.message)
@@ -40,4 +43,17 @@ export async function POST({ request }) {
     }
 
     throw error(500, { message: 'Could not generate answer' })
+}
+
+async function savePrompt(question: string, answer?: string) {
+    try {
+        //TODO: Check if this can produce SXSS or SQL injection
+        await sql`INSERT INTO prompts (question, answer) VALUES (${question}, ${answer})`
+    } catch (err) {
+        if (err instanceof Error) {
+            console.error(err.message)
+        } else {
+            console.error(err)
+        }
+    }
 }

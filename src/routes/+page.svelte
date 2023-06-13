@@ -1,4 +1,5 @@
 <script lang="ts">
+    import PromptHistory from '../components/home/history/PromptHistory.svelte'
     import Prompt from '../components/home/prompts/Prompt.svelte'
     import type { PageData } from './$types'
 
@@ -6,10 +7,10 @@
 
     let answer: Promise<string> | null = null
 
-    async function fetchResponse(question: string) {
+    async function submitPrompt(question: string) {
         if (!question) return
 
-        answer = fetch('/api/answers', {
+        answer = fetch('/api/prompts', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -21,6 +22,7 @@
     }
 </script>
 
-<div class="flex flex-col">
-    <Prompt {answer} on:question={e => fetchResponse(e.detail)} />
+<div class="flex flex-col gap-10">
+    <Prompt {answer} on:question={e => submitPrompt(e.detail)} />
+    <PromptHistory promptRows={data.lastPrompts} />
 </div>

@@ -3,7 +3,7 @@
 </script>
 
 {#if answer}
-    <div class="w-full px-5 py-1.5 border-2 border-secondary rounded-2xl bg-white">
+    <div class="w-full px-5 py-1.5 bg-secondary rounded-2xl">
         {#await answer}
             Thinking...
         {:then value}
