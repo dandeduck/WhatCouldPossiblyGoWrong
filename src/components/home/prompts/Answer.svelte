@@ -3,12 +3,12 @@
 </script>
 
 {#if answer}
-    <div class="flex flex-col gap-2 max-w-md">
+    <div class="flex flex-col gap-2">
         <h2>Answer</h2>
         {#await answer}
-            <p>Thinking...</p>
+            <p class="w-full">Thinking...</p>
         {:then value}
-            <p>{value}</p>
+            <p class="w-full">{value}</p>
         {/await}
     </div>
 {/if}

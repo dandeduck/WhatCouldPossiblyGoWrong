@@ -1,6 +1,5 @@
 <script lang="ts">
-    import Answer from '../components/Answer.svelte'
-    import Question from '../components/Question.svelte'
+    import Prompt from '../components/home/prompts/Prompt.svelte'
     import type { PageData } from './$types'
 
     export let data: PageData
@@ -22,9 +21,6 @@
     }
 </script>
 
-<div class="flex w-full justify-center items-center h-screen">
-    <div class="flex flex-col gap-10">
-        <Question on:help={e => fetchResponse(e.detail)} />
-        <Answer {answer} />
-    </div>
+<div class="flex flex-col">
+    <Prompt {answer} on:question={e => fetchResponse(e.detail)} />
 </div>
