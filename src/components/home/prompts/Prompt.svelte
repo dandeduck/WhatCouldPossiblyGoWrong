@@ -6,16 +6,8 @@
     export let answer: Promise<string> | null = null
     export let question = ''
 
-    let helpText = 'Help'
-    let helpDisabled = false
-
-    $: if (answer) {
-        helpDisabled = true
-    }
-    $: answer?.then(() => {
-        helpText = 'Another'
-        helpDisabled = false
-    })
+    export let helpText = 'Help'
+    export let helpDisabled = false
 
     const dispatch = createEventDispatcher<{ question: string }>()
 </script>

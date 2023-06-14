@@ -11,8 +11,14 @@
     let answer: Promise<string> | null = null
     let question = ''
 
+    let helpText = 'Help'
+    let helpDisabled = false
+
     async function submitPrompt(question: string) {
         if (!question) return
+
+        helpDisabled = true
+        helpText = 'Another'
 
         answer = fetch('/api/prompts', {
             method: 'POST',
@@ -31,6 +37,7 @@
             .then(res => res.answer || "We couldn't think of anything good :(")
             .then(answer => {
                 analytics.track('Prompt', { failed: false })
+                helpDisabled = false
 
                 return answer
             })
@@ -40,11 +47,12 @@
         scrollTo({ top: 0, behavior: 'smooth' })
         question = prompt.question
         answer = Promise.resolve(prompt.answer)
+        helpText = 'Help'
     }
 </script>
 
 <div class="flex flex-col gap-10 transition-all">
-    <Prompt bind:question {answer} on:question={e => submitPrompt(e.detail)} />
+    <Prompt bind:question {answer} on:question={e => submitPrompt(e.detail)} {helpDisabled} {helpText} />
     <PromptHistory
         promptRows={data.lastPrompts}
         placeholder={data.error}
