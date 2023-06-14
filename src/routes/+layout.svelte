@@ -9,11 +9,11 @@
 </script>
 
 <div class="font-serif">
-    <div class="relative">
+    <div class="relative overflow-hidden">
         <Header />
         <PeepingDuck className="absolute bottom-1/4 right-0 -z-10 scale-150" />
     </div>
-    <main class="p-5">
+    <main class="pt-5 px-5">
         <slot />
     </main>
 </div>

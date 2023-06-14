@@ -1,6 +1,7 @@
 <script lang="ts">
     import type PromptRow from '$lib/PromptRow'
     import PromptHistory from '../components/home/history/PromptHistory.svelte'
+    import DuckGroup from '../components/home/illustrations/DuckGroup.svelte'
     import Prompt from '../components/home/prompts/Prompt.svelte'
     import type { PageData } from './$types'
     import analytics from '@vercel/analytics'
@@ -49,3 +50,4 @@
         on:prompt={e => setPromptFromHistory(e.detail)}
     />
 </div>
+<DuckGroup />
