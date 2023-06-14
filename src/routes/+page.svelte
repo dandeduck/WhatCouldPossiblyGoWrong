@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type PromptRow from '$lib/PromptRow'
     import PromptHistory from '../components/home/history/PromptHistory.svelte'
     import Prompt from '../components/home/prompts/Prompt.svelte'
     import type { PageData } from './$types'
@@ -7,6 +8,7 @@
     export let data: PageData
 
     let answer: Promise<string> | null = null
+    let question = ''
 
     async function submitPrompt(question: string) {
         if (!question) return
@@ -32,9 +34,18 @@
                 return answer
             })
     }
+
+    function setPromptFromHistory(prompt: PromptRow) {
+        question = prompt.question
+        answer = Promise.resolve(prompt.answer)
+    }
 </script>
 
 <div class="flex flex-col gap-10">
-    <Prompt {answer} on:question={e => submitPrompt(e.detail)} />
-    <PromptHistory promptRows={data.lastPrompts} placeholder={data.error} />
+    <Prompt bind:question {answer} on:question={e => submitPrompt(e.detail)} />
+    <PromptHistory
+        promptRows={data.lastPrompts}
+        placeholder={data.error}
+        on:prompt={e => setPromptFromHistory(e.detail)}
+    />
 </div>

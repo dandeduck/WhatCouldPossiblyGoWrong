@@ -11,7 +11,7 @@
 <div class="font-serif">
     <div class="relative">
         <Header />
-        <PeepingDuck className="absolute bottom-1/4 right-0 -z-10" />
+        <PeepingDuck className="absolute bottom-1/4 right-0 -z-10 scale-150" />
     </div>
     <main class="p-5">
         <slot />

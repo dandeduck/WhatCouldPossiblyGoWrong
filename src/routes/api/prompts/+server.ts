@@ -1,6 +1,5 @@
 import { error, json } from '@sveltejs/kit'
 import { Configuration, OpenAIApi } from 'openai'
-import { config } from 'dotenv'
 import { sql } from '@vercel/postgres'
 
 const PROMPT_TEMPLATE = `
@@ -9,7 +8,6 @@ I want to %question%. What could possibly go wrong?
 
 Talk about it in the second person, don't repeat the question, and make it one paragraph long.
 `
-config()
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY
 })

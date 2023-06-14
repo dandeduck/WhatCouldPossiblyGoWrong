@@ -4,10 +4,11 @@
 
     export let helpDisabled = false
     export let helpText = 'Help'
+    export let questionPlaceholder = 'Buy a unicorn on Amazon'
 
     const dispatch = createEventDispatcher<{ help: string }>()
 
-    let question = ''
+    export let question = ''
 
     function onKeydown(event: KeyboardEvent) {
         if (event.key === 'Enter') {
@@ -25,14 +26,14 @@
         <input
             class="outline-none border-b border-black bg-transparent w-full h-min m-auto text-primary placeholder:text-primary placeholder:opacity-50"
             bind:value={question}
-            placeholder="Buy a unicorn on Amazon"
+            placeholder={questionPlaceholder}
             on:keydown={onKeydown}
         />
     </div>
     <button
         class="border bg-primary border-black rounded-3xl px-8 py-1.5 text-white disabled:opacity-50"
         disabled={helpDisabled}
-        on:click={() => dispatch('help', question)}
+        on:click={() => dispatch('help', question || questionPlaceholder)}
     >
         {helpText}
     </button>
