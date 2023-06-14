@@ -2,6 +2,7 @@
     import PromptHistory from '../components/home/history/PromptHistory.svelte'
     import Prompt from '../components/home/prompts/Prompt.svelte'
     import type { PageData } from './$types'
+    import analytics from '@vercel/analytics'
 
     export let data: PageData
 
@@ -17,8 +18,19 @@
             },
             body: JSON.stringify({ question })
         })
-            .then(res => res.json())
+            .catch(err => {
+                console.error(err)
+                analytics.track('Prompt', { failed: true })
+
+                return null
+            })
+            .then(res => res?.json())
             .then(res => res.answer || "We couldn't think of anything good :(")
+            .then(answer => {
+                analytics.track('Prompt', { failed: false })
+
+                return answer
+            })
     }
 </script>
 
