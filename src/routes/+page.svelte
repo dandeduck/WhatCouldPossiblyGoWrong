@@ -37,12 +37,13 @@
     }
 
     function setPromptFromHistory(prompt: PromptRow) {
+        scrollTo({ top: 0, behavior: 'smooth' })
         question = prompt.question
         answer = Promise.resolve(prompt.answer)
     }
 </script>
 
-<div class="flex flex-col gap-10">
+<div class="flex flex-col gap-10 transition-all">
     <Prompt bind:question {answer} on:question={e => submitPrompt(e.detail)} />
     <PromptHistory
         promptRows={data.lastPrompts}
