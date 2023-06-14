@@ -31,7 +31,7 @@ export async function POST({ request }) {
 
         const answer = response.data.choices[0].text
 
-        savePrompt(question, answer)
+        savePrompt(question, answer).catch(console.error)
 
         return json({ answer })
     } catch (err) {
@@ -42,9 +42,5 @@ export async function POST({ request }) {
 }
 
 async function savePrompt(question: string, answer?: string) {
-    try {
-        await sql`INSERT INTO prompts (question, answer) VALUES (${question}, ${answer})`
-    } catch (err) {
-        console.error(err)
-    }
+    return sql`INSERT INTO prompts (question, answer) VALUES (${question}, ${answer})`
 }
