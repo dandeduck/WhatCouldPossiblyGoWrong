@@ -35,11 +35,7 @@ export async function POST({ request }) {
 
         return json({ answer })
     } catch (err) {
-        if (err instanceof Error) {
-            console.error(err.message)
-        } else {
-            console.error(err)
-        }
+        console.error(err)
     }
 
     throw error(500, { message: 'Could not generate answer' })
@@ -47,13 +43,8 @@ export async function POST({ request }) {
 
 async function savePrompt(question: string, answer?: string) {
     try {
-        //TODO: Check if this can produce SXSS or SQL injection
         await sql`INSERT INTO prompts (question, answer) VALUES (${question}, ${answer})`
     } catch (err) {
-        if (err instanceof Error) {
-            console.error(err.message)
-        } else {
-            console.error(err)
-        }
+        console.error(err)
     }
 }

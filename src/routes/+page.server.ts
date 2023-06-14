@@ -7,8 +7,10 @@ export async function load() {
             lastPrompts: (await sql<PromptRow>`SELECT * FROM prompts ORDER BY created_at DESC LIMIT 8`).rows
         }
     } catch (err) {
+        console.error(err)
+
         return {
-            error: 'Could not load history'
+            error: "Couldn't load history :("
         }
     }
 }

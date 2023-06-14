@@ -24,5 +24,5 @@
 
 <div class="flex flex-col gap-10">
     <Prompt {answer} on:question={e => submitPrompt(e.detail)} />
-    <PromptHistory promptRows={data.lastPrompts} />
+    <PromptHistory promptRows={data.lastPrompts} placeholder={data.error} />
 </div>
