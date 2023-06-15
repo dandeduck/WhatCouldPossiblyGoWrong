@@ -2,8 +2,10 @@
     import { createEventDispatcher } from 'svelte'
     import Blob2 from '../../icons/Blob2.svelte'
 
+    const defaultHelpText = 'Help'
+
     export let helpDisabled = false
-    export let helpText = 'Help'
+    export let helpText = defaultHelpText
     export let questionPlaceholder = 'Buy a unicorn on Amazon'
 
     const dispatch = createEventDispatcher<{ help: string }>()
@@ -14,6 +16,7 @@
         if (event.key === 'Enter') {
             dispatch('help', question)
         }
+        helpText = defaultHelpText
     }
 </script>
 
