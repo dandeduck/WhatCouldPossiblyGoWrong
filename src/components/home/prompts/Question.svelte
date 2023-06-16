@@ -25,7 +25,7 @@
     }
 
     function generatePlaceholder() {
-        return wackySentences[Math.floor(Math.random() * wackySentences.length)].toLowerCase()
+        return wackySentences[Math.floor(Math.random() * wackySentences.length)]
     }
 </script>
 
