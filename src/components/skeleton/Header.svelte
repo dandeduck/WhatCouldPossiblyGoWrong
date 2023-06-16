@@ -12,6 +12,6 @@
         </h1>
         <img class="absolute -z-10 comet" src={comet} alt="comet" />
         <img class="absolute -z-10 bottom-0 right-5 duck" src={duck} alt="duck" />
-        <img class="absolute -z-10 bottom-3 -scale-100 cloud -z-10" src={cloud} alt="cloud" />
+        <img class="absolute -z-10 bottom-3 -scale-100 cloud" src={cloud} alt="cloud" />
     </div>
 </header>
