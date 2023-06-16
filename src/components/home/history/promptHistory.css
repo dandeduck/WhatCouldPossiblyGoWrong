@@ -1,0 +1,39 @@
+.eye {
+    height: 50px;
+    top: -1.5rem;
+    right: 30%;
+}
+
+.tea-and-coffee {
+    height: 100px;
+    top: 7rem;
+    right: -2.5rem;
+    transform: rotate(-15deg);
+}
+
+.ghost {
+    height: 39px;
+
+    bottom: 7%;
+    right: 5%;
+
+    transform: scaleX(-1);
+}
+
+@media screen and (min-width: 768px) {
+    .eye {
+        height: 60px;
+        top: -2rem;
+    }
+
+    .tea-and-coffee {
+        height: 150px;
+        top: 2.5rem;
+        right: -4rem;
+    }
+
+    .ghost {
+        height: 60px;
+        right: 17%;
+    }
+}

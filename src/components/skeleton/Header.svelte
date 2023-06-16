@@ -10,8 +10,8 @@
         <h1 class="md:w-title-desktop w-title-mobile text-center text-xl uppercase md:text-4xl">
             what could possibly go wrong?
         </h1>
-        <img class="absolute comet" src={comet} alt="comet" />
-        <img class="absolute bottom-0 right-5 duck" src={duck} alt="duck" />
-        <img class="absolute bottom-3 -scale-100 cloud" src={cloud} alt="cloud" />
+        <img class="absolute -z-10 comet" src={comet} alt="comet" />
+        <img class="absolute -z-10 bottom-0 right-5 duck" src={duck} alt="duck" />
+        <img class="absolute -z-10 bottom-3 -scale-100 cloud -z-10" src={cloud} alt="cloud" />
     </div>
 </header>
