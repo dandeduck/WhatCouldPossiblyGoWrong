@@ -13,5 +13,5 @@
     class:opacity-100={answer}
     class:translate-y-0={answer}
 >
-    {isLoading ? 'Thinking...' : answer || INITIAL_TEXT}
+    <span class:loading={isLoading}>{isLoading ? 'Thinking' : answer || INITIAL_TEXT}</span>
 </div>
