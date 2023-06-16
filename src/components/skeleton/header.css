@@ -1,0 +1,36 @@
+.comet {
+    height: 100px;
+    top: -1rem;
+    left: -3rem;
+}
+
+.duck {
+    height: 65px;
+    bottom: -3rem;
+    right: -1rem;
+}
+
+.cloud {
+    height: 70px;
+    bottom: -2rem;
+    left: 35%;
+    transform: scale(-1) rotate(20deg);
+}
+
+@media screen and (min-width: 768px) {
+    .comet {
+        height: 150px;
+        top: -2rem;
+        left: -6rem;
+    }
+
+    .duck {
+        height: 80px;
+        right: -5rem;
+    }
+
+    .cloud {
+        height: 100px;
+        bottom: -3rem;
+    }
+}

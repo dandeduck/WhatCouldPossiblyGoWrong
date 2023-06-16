@@ -1,5 +1,17 @@
-<header class="w-full overflow-hidden pb-44">
-    <div class="relative w-fit m-auto mt-10">
-        <h1 class="text-xl uppercase md:text-4xl">what could possibly go wrong?</h1>
+<script lang="ts">
+    import comet from '$lib/assets/comet.png'
+    import duck from '$lib/assets/duck.png'
+    import cloud from '$lib/assets/cloud.png'
+    import './header.css'
+</script>
+
+<header class="flex justify-center overflow-visible pt-10" style="padding-bottom: 50px;">
+    <div class="relative overflow-visible">
+        <h1 class="md:w-title-desktop w-title-mobile text-center text-xl uppercase md:text-4xl">
+            what could possibly go wrong?
+        </h1>
+        <img class="absolute comet" src={comet} alt="comet" />
+        <img class="absolute bottom-0 right-5 duck" src={duck} alt="duck" />
+        <img class="absolute bottom-3 -scale-100 cloud" src={cloud} alt="cloud" />
     </div>
 </header>

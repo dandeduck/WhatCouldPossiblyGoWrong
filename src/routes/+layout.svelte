@@ -11,7 +11,7 @@
     <div class="relative overflow-hidden">
         <Header />
     </div>
-    <main class="pt-5 px-5 md:px-10">
+    <main class="pt-5 px-5 md:px-10 lg:px-48">
         <slot />
     </main>
 </div>

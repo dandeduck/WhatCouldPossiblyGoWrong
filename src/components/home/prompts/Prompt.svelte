@@ -5,8 +5,8 @@
     import HelpButton from './HelpButton.svelte'
 
     export let answer: string | null = null
-    export let isLoading = false
     export let question = ''
+    export let isLoading = false
 
     let placeholder = ''
     let another = false
@@ -28,7 +28,7 @@
             <HelpButton disabled={isLoading} {another} on:click={sendQuestion} />
         </div>
     </div>
-    <Answer {answer} {isLoading} />
+    <Answer {answer} />
     <div class="md:hidden mt-3">
         <HelpButton disabled={isLoading} {another} on:click={sendQuestion} />
     </div>

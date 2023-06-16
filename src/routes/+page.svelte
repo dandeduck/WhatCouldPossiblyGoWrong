@@ -3,17 +3,21 @@
     import { goto } from '$app/navigation'
     import { page } from '$app/stores'
     import type PromptRow from '$lib/PromptRow'
+    import { getPromptId } from '$lib/utils'
     import PromptHistory from '../components/home/history/PromptHistory.svelte'
     import Prompt from '../components/home/prompts/Prompt.svelte'
     import type { PageData } from './$types'
     import analytics from '@vercel/analytics'
+    import { useCompletion } from 'ai/svelte'
 
     export let data: PageData
 
+    const sessionId = crypto.randomUUID().replace('-', '').substring(0, 8)
+    const { input, handleSubmit, completion, isLoading } = useCompletion({ onError, onFinish, body: { sessionId } })
+
     let answer: string | null = null
     let question = ''
-    let promptId: null | number = null
-    let isLoading = false
+    let promptId: null | string = null
 
     if (data.prompt && browser) {
         setPromptFromHistory(data.prompt)
@@ -27,37 +31,20 @@
         goto($page.url.toString(), { replaceState: true })
     }
 
-    async function submitPrompt(question: string) {
-        if (!question) return
+    $: answer = $completion || answer
 
-        isLoading = true
+    async function submitPrompt(event: any) {
+        $input = event.detail
+        handleSubmit(event)
+        analytics.track('Prompt', { failed: false })
+    }
 
-        try {
-            const res = await fetch('/api/prompts', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ question })
-            })
+    function onError() {
+        analytics.track('Prompt', { failed: true })
+    }
 
-            const body = await res.json()
-
-            if (res.status !== 200) {
-                throw new Error(JSON.stringify(body))
-            }
-
-            answer = body.answer
-            promptId = body.id
-
-            analytics.track('Prompt', { failed: false })
-        } catch (err) {
-            answer = "We couldn't think of anything good :("
-            console.error(err)
-            analytics.track('Prompt', { failed: true })
-        }
-
-        isLoading = false
+    function onFinish() {
+        promptId = getPromptId(question, sessionId)
     }
 
     function setPromptFromHistory(prompt: PromptRow) {
@@ -72,7 +59,7 @@
 </script>
 
 <div class="flex flex-col gap-10 transition-all">
-    <Prompt bind:question {answer} on:question={e => submitPrompt(e.detail)} {isLoading} />
+    <Prompt bind:question {answer} on:question={submitPrompt} isLoading={$isLoading} />
     <PromptHistory
         promptRows={data.lastPrompts}
         placeholder={data.error}

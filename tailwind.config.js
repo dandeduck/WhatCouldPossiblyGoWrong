@@ -8,7 +8,11 @@ export default {
                 secondary: '#CAFD50'
             },
             maxHeight: {
-                answer: '500px'
+                answer: '600px'
+            },
+            width: {
+                'title-mobile': '336px',
+                'title-desktop': '579px'
             }
         }
     },

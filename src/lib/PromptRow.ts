@@ -1,5 +1,5 @@
 type PromptRow = {
-    id: number
+    id: string
     question: string
     answer: string
     created_at: Date
