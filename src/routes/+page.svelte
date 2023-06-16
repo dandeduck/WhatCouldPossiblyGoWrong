@@ -51,7 +51,7 @@
         scrollTo({ top: 0, behavior: 'smooth' })
 
         question = prompt.question
-        answer = prompt.answer
+        $completion = prompt.answer
         promptId = prompt.id
 
         analytics.track('History')
