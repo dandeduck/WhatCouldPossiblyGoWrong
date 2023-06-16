@@ -11,7 +11,7 @@
     let placeholder = ''
     let another = false
 
-    $: another = !question
+    $: another = !question && question !== ''
     $: another = !!answer
 
     const dispatch = createEventDispatcher<{ question: string }>()
@@ -23,7 +23,7 @@
 
 <div class="w-full">
     <div class="flex gap-5 mb-2.5">
-        <Question on:help={sendQuestion} bind:question bind:placeholder />
+        <Question on:question={sendQuestion} bind:question bind:placeholder />
         <div class="hidden md:block">
             <HelpButton disabled={isLoading} {another} on:click={sendQuestion} />
         </div>

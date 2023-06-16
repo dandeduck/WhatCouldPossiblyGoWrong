@@ -7,7 +7,8 @@
 </script>
 
 <div
-    class="px-5 py-1.5 bg-secondary transition-all duration-500 max-h-10 overflow-hidden answer"
+    class="px-5 py-1.5 bg-secondary transition-all duration-500 overflow-hidden answer"
+    class:max-h-16={!answer || isLoading}
     class:max-h-answer={answer && !isLoading}
     class:opacity-100={answer}
     class:translate-y-0={answer}

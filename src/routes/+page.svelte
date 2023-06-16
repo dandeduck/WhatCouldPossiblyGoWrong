@@ -1,4 +1,7 @@
 <script lang="ts">
+    import { browser } from '$app/environment'
+    import { goto } from '$app/navigation'
+    import { page } from '$app/stores'
     import type PromptRow from '$lib/PromptRow'
     import PromptHistory from '../components/home/history/PromptHistory.svelte'
     import Prompt from '../components/home/prompts/Prompt.svelte'
@@ -9,7 +12,20 @@
 
     let answer: string | null = null
     let question = ''
+    let promptId: null | number = null
     let isLoading = false
+
+    if (data.prompt && browser) {
+        setPromptFromHistory(data.prompt)
+    }
+
+    $: if (promptId) {
+        $page.url.searchParams.set('id', promptId?.toString())
+        goto($page.url.toString(), { replaceState: true })
+    } else if (browser) {
+        $page.url.searchParams.delete('id')
+        goto($page.url.toString(), { replaceState: true })
+    }
 
     async function submitPrompt(question: string) {
         if (!question) return
@@ -23,13 +39,16 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ question })
-            }).then(res => res.json())
+            })
 
-            if (!res.answer) {
-                throw new Error(res)
+            const body = await res.json()
+
+            if (res.status !== 200) {
+                throw new Error(JSON.stringify(body))
             }
 
-            answer = res.answer
+            answer = body.answer
+            promptId = body.id
 
             analytics.track('Prompt', { failed: false })
         } catch (err) {
@@ -46,6 +65,7 @@
 
         question = prompt.question
         answer = prompt.answer
+        promptId = prompt.id
 
         analytics.track('History')
     }
