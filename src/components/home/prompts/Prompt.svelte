@@ -14,17 +14,17 @@
     $: another = !question && question !== ''
     $: another = !!answer
 
-    const dispatch = createEventDispatcher<{ question: string }>()
+    const dispatch = createEventDispatcher<{ prompt: string }>()
 
     const sendQuestion = () => {
-        dispatch('question', question || placeholder)
+        dispatch('prompt', question || placeholder)
     }
 </script>
 
 <div class="w-full">
     <div class="flex gap-5 mb-2.5">
         <Question on:question={sendQuestion} bind:question bind:placeholder />
-        <div class="hidden md:block">
+        <div class="hidden md:block min-w-max">
             <HelpButton disabled={isLoading} {another} on:click={sendQuestion} />
         </div>
     </div>

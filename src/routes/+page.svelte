@@ -3,7 +3,6 @@
     import { goto } from '$app/navigation'
     import { page } from '$app/stores'
     import type PromptRow from '$lib/PromptRow'
-    import { getPromptId } from '$lib/utils'
     import PromptHistory from '../components/home/history/PromptHistory.svelte'
     import Prompt from '../components/home/prompts/Prompt.svelte'
     import type { PageData } from './$types'
@@ -12,26 +11,27 @@
 
     export let data: PageData
 
-    const sessionId = crypto.randomUUID().replace('-', '').substring(0, 8)
-    const { input, handleSubmit, completion, isLoading } = useCompletion({ onError, onFinish, body: { sessionId } })
+    const { input, handleSubmit, completion, isLoading } = useCompletion({
+        onError,
+        onFinish,
+        initialCompletion: data.prompt?.answer || '',
+        initialInput: data.prompt?.question || ''
+    })
 
-    let answer: string | null = null
-    let question = ''
-    let promptId: null | string = null
+    let promptId: null | number = null
 
     if (data.prompt && browser) {
-        setPromptFromHistory(data.prompt)
+        promptId = data.prompt.id
+        analytics.track('URL', { promptId })
     }
 
-    $: if (promptId) {
+    $: if (promptId && $page.url.searchParams.get('id') !== promptId.toString()) {
         $page.url.searchParams.set('id', promptId?.toString())
         goto($page.url.toString(), { replaceState: true })
-    } else if (browser) {
+    } else if (!promptId && browser) {
         $page.url.searchParams.delete('id')
         goto($page.url.toString(), { replaceState: true })
     }
-
-    $: answer = $completion || answer
 
     async function submitPrompt(event: any) {
         $input = event.detail
@@ -43,14 +43,21 @@
         analytics.track('Prompt', { failed: true })
     }
 
-    function onFinish() {
-        promptId = getPromptId(question, sessionId)
+    async function onFinish() {
+        promptId = await fetch('/api/prompts/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question: $input, answer: $completion })
+        })
+            .then(res => res.json())
+            .then(res => res.id)
+            .catch(e => console.error(e))
     }
 
     function setPromptFromHistory(prompt: PromptRow) {
         scrollTo({ top: 0, behavior: 'smooth' })
 
-        question = prompt.question
+        $input = prompt.question
         $completion = prompt.answer
         promptId = prompt.id
 
@@ -59,7 +66,7 @@
 </script>
 
 <div class="flex flex-col gap-10 transition-all">
-    <Prompt bind:question {answer} on:question={submitPrompt} isLoading={$isLoading} />
+    <Prompt question={$input} answer={$completion} on:prompt={submitPrompt} isLoading={$isLoading} />
     <PromptHistory
         promptRows={data.lastPrompts}
         placeholder={data.error}

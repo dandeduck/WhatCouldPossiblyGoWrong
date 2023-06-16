@@ -1,8 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai-edge'
-import { sql } from '@vercel/postgres'
 import { OpenAIStream, StreamingTextResponse } from 'ai'
 import type { RequestHandler } from './$types'
-import { getPromptId } from '$lib/utils'
 
 const PROMPT_TEMPLATE = `
 Come up with a funny and weird unrealistic situtation that might result from the following question:
@@ -16,7 +14,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration)
 
 export const POST = (async ({ request }) => {
-    const { prompt: question, sessionId } = await request.json()
+    const { prompt: question } = await request.json()
 
     const prompt = PROMPT_TEMPLATE.replace('%question%', question.substring(0, 256))
 
@@ -28,17 +26,7 @@ export const POST = (async ({ request }) => {
         max_tokens: 200
     })
 
-    const stream = OpenAIStream(response, {
-        onCompletion: async (completion: string) => {
-            await savePrompt(getPromptId(question, sessionId), question, completion)
-        }
-    })
+    const stream = OpenAIStream(response)
 
     return new StreamingTextResponse(stream)
 }) satisfies RequestHandler
-
-async function savePrompt(id: string, question: string, answer: string) {
-    return sql`
-        INSERT INTO prompts (id, question, answer) 
-        VALUES (${id}, ${question}, ${answer})`
-}
