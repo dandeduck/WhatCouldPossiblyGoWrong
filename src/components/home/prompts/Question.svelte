@@ -1,12 +1,17 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte'
     import Blob2 from '../../icons/Blob2.svelte'
+    import wackySentences from './wackySentences'
 
     const defaultHelpText = 'Help'
 
     export let helpDisabled = false
     export let helpText = defaultHelpText
-    export let questionPlaceholder = 'Buy a unicorn on Amazon'
+    export let questionPlaceholder = generatePlaceholder()
+
+    $: if (!question) {
+        questionPlaceholder = generatePlaceholder()
+    }
 
     const dispatch = createEventDispatcher<{ help: string }>()
 
@@ -17,6 +22,10 @@
             dispatch('help', question)
         }
         helpText = defaultHelpText
+    }
+
+    function generatePlaceholder() {
+        return wackySentences[Math.floor(Math.random() * wackySentences.length)].toLowerCase()
     }
 </script>
 
