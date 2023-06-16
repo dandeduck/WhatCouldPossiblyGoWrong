@@ -6,6 +6,9 @@ export default {
             colors: {
                 primary: '#4876FF',
                 secondary: '#CAFD50'
+            },
+            maxHeight: {
+                answer: '500px'
             }
         }
     },

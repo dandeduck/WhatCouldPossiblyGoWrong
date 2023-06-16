@@ -1,0 +1,10 @@
+.answer {
+    border-radius: 20px;
+}
+
+@media screen and (min-width: 768px) {
+    .answer {
+        margin-left: 76px;
+        margin-right: 120px;
+    }
+}

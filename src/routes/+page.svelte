@@ -1,62 +1,61 @@
 <script lang="ts">
     import type PromptRow from '$lib/PromptRow'
     import PromptHistory from '../components/home/history/PromptHistory.svelte'
-    import DuckGroup from '../components/home/illustrations/DuckGroup.svelte'
     import Prompt from '../components/home/prompts/Prompt.svelte'
     import type { PageData } from './$types'
     import analytics from '@vercel/analytics'
 
     export let data: PageData
 
-    let answer: Promise<string> | null = null
+    let answer: string | null = null
     let question = ''
-
-    let helpText = 'Help'
-    let helpDisabled = false
+    let isLoading = false
 
     async function submitPrompt(question: string) {
         if (!question) return
 
-        helpDisabled = true
-        helpText = 'Another'
+        isLoading = true
 
-        answer = fetch('/api/prompts', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ question })
-        })
-            .catch(err => {
-                console.error(err)
-                analytics.track('Prompt', { failed: true })
+        try {
+            const res = await fetch('/api/prompts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ question })
+            }).then(res => res.json())
 
-                return null
-            })
-            .then(res => res?.json())
-            .then(res => res.answer || "We couldn't think of anything good :(")
-            .then(answer => {
-                analytics.track('Prompt', { failed: false })
-                helpDisabled = false
+            if (!res.answer) {
+                throw new Error(res)
+            }
 
-                return answer
-            })
+            answer = res.answer
+
+            analytics.track('Prompt', { failed: false })
+        } catch (err) {
+            answer = "We couldn't think of anything good :("
+            console.error(err)
+            analytics.track('Prompt', { failed: true })
+        }
+
+        isLoading = false
     }
 
     function setPromptFromHistory(prompt: PromptRow) {
         scrollTo({ top: 0, behavior: 'smooth' })
+
         question = prompt.question
-        answer = Promise.resolve(prompt.answer)
-        helpText = 'Help'
+        answer = prompt.answer
+
+        analytics.track('History')
     }
 </script>
 
 <div class="flex flex-col gap-10 transition-all">
-    <Prompt bind:question {answer} on:question={e => submitPrompt(e.detail)} {helpDisabled} {helpText} />
+    <Prompt bind:question {answer} on:question={e => submitPrompt(e.detail)} {isLoading} />
     <PromptHistory
         promptRows={data.lastPrompts}
         placeholder={data.error}
         on:prompt={e => setPromptFromHistory(e.detail)}
     />
 </div>
-<DuckGroup />

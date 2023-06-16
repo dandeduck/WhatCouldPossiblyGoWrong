@@ -1,15 +1,16 @@
 <script lang="ts">
-    export let answer: Promise<string> | null = null
+    import './answer.css'
+    export let answer: string | null = null
+    export let isLoading = false
+
+    const INITIAL_TEXT = 'Want to know what could possibly go wrong? Ask away!'
 </script>
 
 <div
-    class="w-full px-5 py-1.5 bg-secondary rounded-2xl transition-all h-full"
-    class:h-0={!answer}
-    class:opacity-0={!answer}
+    class="px-5 py-1.5 bg-secondary transition-all duration-500 max-h-10 overflow-hidden answer"
+    class:max-h-answer={answer && !isLoading}
+    class:opacity-100={answer}
+    class:translate-y-0={answer}
 >
-    {#await answer}
-        Thinking...
-    {:then value}
-        {value || ''}
-    {/await}
+    {isLoading ? 'Thinking...' : answer || INITIAL_TEXT}
 </div>
