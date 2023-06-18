@@ -1,12 +1,12 @@
 .comet {
     height: 100px;
-    top: 0;
+    top: -1rem;
     left: -3rem;
 }
 
 .duck {
     height: 65px;
-    bottom: 1rem;
+    bottom: -3rem;
     right: -1rem;
 }
 
