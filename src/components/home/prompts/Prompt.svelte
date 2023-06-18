@@ -22,14 +22,9 @@
 </script>
 
 <div class="w-full">
-    <div class="flex gap-5 mb-2.5">
+    <div class="flex flex-col md:flex-row md:gap-5 gap-2.5 mb-2.5">
         <Question on:question={sendQuestion} bind:question bind:placeholder />
-        <div class="hidden md:block min-w-max">
-            <HelpButton disabled={isLoading} {another} on:click={sendQuestion} />
-        </div>
-    </div>
-    <Answer {answer} />
-    <div class="md:hidden mt-3">
         <HelpButton disabled={isLoading} {another} on:click={sendQuestion} />
     </div>
+    <Answer {answer} />
 </div>

@@ -29,7 +29,7 @@
     </div>
     <input
         maxlength="256"
-        class="outline-none border-b border-black bg-transparent w-full h-min m-auto text-primary placeholder:text-primary placeholder:opacity-50"
+        class="outline-none border-b border-black bg-transparent flex-1 h-min m-auto text-primary placeholder:text-primary placeholder:opacity-50"
         {placeholder}
         bind:value={question}
         on:keydown={onKeydown}

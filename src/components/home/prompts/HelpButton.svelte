@@ -13,7 +13,7 @@
 </script>
 
 <button
-    class="border bg-primary border-black px-8 py-1.5 text-white disabled:opacity-50 w-full"
+    class="border bg-primary border-black px-8 py-1.5 text-white disabled:opacity-50 min-w-max"
     {disabled}
     on:click={() => dispatch('click')}
     style="border-radius: 60px;"
