@@ -1,6 +1,6 @@
 .eye {
     height: 50px;
-    top: -1.5rem;
+    top: 290px;
     right: 30%;
 }
 
@@ -23,7 +23,7 @@
 @media screen and (min-width: 768px) {
     .eye {
         height: 60px;
-        top: -2rem;
+        top: 232px;
     }
 
     .tea-and-coffee {

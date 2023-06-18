@@ -4,6 +4,7 @@
     import { inject } from '@vercel/analytics'
     import Header from '../components/skeleton/Header.svelte'
     import Footer from '../components/skeleton/Footer.svelte'
+    import BackgroundIcons from '../components/skeleton/BackgroundIcons.svelte'
 
     inject({ mode: dev ? 'development' : 'production' })
 </script>
@@ -17,3 +18,4 @@
     </main>
     <Footer />
 </div>
+<BackgroundIcons />

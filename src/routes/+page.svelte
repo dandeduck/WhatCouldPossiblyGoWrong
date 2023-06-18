@@ -25,10 +25,7 @@
         analytics.track('URL', { promptId })
     }
 
-    $: if (promptId && $page.url.searchParams.get('id') !== promptId.toString()) {
-        $page.url.searchParams.set('id', promptId?.toString())
-        goto($page.url.toString(), { replaceState: true })
-    } else if (!promptId && browser) {
+    $: if (!promptId && browser) {
         $page.url.searchParams.delete('id')
         goto($page.url.toString(), { replaceState: true })
     }
@@ -59,7 +56,6 @@
 
         $input = prompt.question
         $completion = prompt.answer
-        promptId = prompt.id
 
         analytics.track('History')
     }
